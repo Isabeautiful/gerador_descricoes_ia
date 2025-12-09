@@ -1,24 +1,42 @@
 cat > .gitignore << 'EOF'
 # Python
 venv/
+env/
 __pycache__/
 *.pyc
-.pytest_cache/
+*.pyo
+*.pyd
 
-# Environment variables
+# Banco de dados SQLite
+data/descricoes.db
+*.db
+*.sqlite
+
+# Environment
 .env
-.env.local
+.env.*
+secrets/
 
 # Streamlit
 .streamlit/
-
-# OS
-.DS_Store
-Thumbs.db
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Testes
+.pytest_cache/
+.coverage
+
+# Build
+dist/
+build/
+*.egg-info/
 EOF
