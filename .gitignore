@@ -8,7 +8,7 @@ __pycache__/
 *.pyd
 
 # Banco de dados SQLite
-data/descricoes.db
+data/
 *.db
 *.sqlite
 
