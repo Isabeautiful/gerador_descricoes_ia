@@ -55,6 +55,11 @@ SaaS completo para geração automática de descrições otimizadas para marketp
 - Chave da API Google Gemini
 
 ### Passo a Passo
+#### Como executar:
+1. Clone o repositório
+2. pip install -r requirements.txt
+3. Crie .env com GEMINI_API_KEY=...
+4. streamlit run app.py
 
 1. **Clone o repositório**
    ```bash
