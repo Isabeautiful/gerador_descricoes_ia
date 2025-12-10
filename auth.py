@@ -152,7 +152,6 @@ def show_register_form():
                             st.session_state.user_email = email
                             st.session_state.user_plan = 'free'
                             st.success(f"Conta criada com sucesso! Bem-vindo, {email}!")
-                            st.balloons()
                             st.rerun()
                         else:
                             st.error("Erro ao criar conta. Tente novamente.")

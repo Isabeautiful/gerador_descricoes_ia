@@ -405,6 +405,5 @@ def show_validation_page():
         
         if economia_mensal > 0:
             st.success(f"**Economia mensal: R$ {economia_mensal:.2f}**")
-            st.balloons()
         else:
             st.warning("Para maior economia, aumente sua produtividade!")

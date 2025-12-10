@@ -201,7 +201,6 @@ def simulate_payment(user_id, plan, amount, db):
             ==================================
             """)
         
-        st.balloons()
 
 def show_enterprise_form():
     """Exibe formulário para plano Enterprise"""
