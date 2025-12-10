@@ -233,6 +233,14 @@ else:
         col1, col2 = st.columns(2)
         
         with col1:
+            # Listas de opções
+            categorias = ["Roupas e Moda", "Eletrônicos", "Casa e Jardim", 
+                         "Beleza e Saúde", "Esportes", "Automotivo", 
+                         "Brinquedos", "Alimentos", "Livros", "Outros"]
+            
+            tons = ["Persuasivo/Vendedor", "Informativo/Técnico", 
+                   "Descontraído/Jovem", "Luxo/Premium", "Ecológico/Sustentável"]
+            
             nome_produto = st.text_input(
                 "**Nome do Produto**",
                 value=st.session_state.nome_produto,
@@ -242,49 +250,52 @@ else:
             
             categoria = st.selectbox(
                 "**Categoria Principal**",
-                ["Roupas e Moda", "Eletrônicos", "Casa e Jardim", 
-                 "Beleza e Saúde", "Esportes", "Automotivo", 
-                 "Brinquedos", "Alimentos", "Livros", "Outros"],
-                index=1  # Eletrônicos como padrão
+                options=categorias,
+                index=categorias.index(st.session_state.categoria) if st.session_state.categoria in categorias else 1
             )
             
             tom_descricao = st.selectbox(
                 "**Tom da Descrição**",
-                ["Persuasivo/Vendedor", "Informativo/Técnico", 
-                 "Descontraído/Jovem", "Luxo/Premium", "Ecológico/Sustentável"]
+                options=tons,
+                index=tons.index(st.session_state.tom_descricao) if st.session_state.tom_descricao in tons else 0
             )
 
         with col2:
             # Configurações avançadas em expansor
             with st.expander("⚙️ Configurações Avançadas", expanded=True):
+                tamanho_opcoes = ["Curta (50 palavras)", "Média (150 palavras)", "Longa (300 palavras)"]
                 tamanho = st.select_slider(
                     "**Tamanho da descrição:**",
-                    options=["Curta (50 palavras)", "Média (150 palavras)", "Longa (300 palavras)"],
-                    value="Média (150 palavras)"
+                    options=tamanho_opcoes,
+                    value=st.session_state.tamanho
                 )
                 
                 # 🔧 NOVO: Seleção de template
+                template_opcoes = list(temp.TEMPLATES.keys())
                 template_selecionado = st.selectbox(
                     "**Template de descrição:**",
-                    options=list(temp.TEMPLATES.keys()),
+                    options=template_opcoes,
+                    index=template_opcoes.index(st.session_state.template_selecionado) if st.session_state.template_selecionado in template_opcoes else 0,
                     format_func=lambda x: temp.TEMPLATES[x]["name"],
                     help="Selecione o template mais adequado para sua necessidade"
                 )
                 
+                formato_opcoes = ["Texto simples", "HTML", "Markdown"]
                 formato_exportacao = st.radio(
                     "**Formato de exportação:**",
-                    ["Texto simples", "HTML", "Markdown"],
+                    options=formato_opcoes,
+                    index=formato_opcoes.index(st.session_state.formato_exportacao) if st.session_state.formato_exportacao in formato_opcoes else 0,
                     horizontal=True
                 )
                 
                 incluir_hashtags = st.checkbox(
                     "Incluir hashtags para redes sociais",
-                    value=True
+                    value=st.session_state.incluir_hashtags
                 )
                 
                 incluir_especificacoes = st.checkbox(
                     "Incluir seção de especificações técnicas",
-                    value=True
+                    value=st.session_state.incluir_especificacoes
                 )
         
         # Palavras-chave
@@ -399,9 +410,9 @@ else:
                                 st.info("Verifique sua chave da API e conexão com a internet.")
         
         with col_btn2:
-            # Exemplo rápido - SOLUÇÃO ALTERNATIVA
+            # Exemplo rápido
             if st.button("🎯 Exemplo Rápido", use_container_width=True):
-                # Usar st.session_state para atualizar os valores
+                # Atualizar session_state
                 st.session_state.nome_produto = "Fone Bluetooth à Prova d'Água com Cancelamento de Ruído"
                 st.session_state.categoria = "Eletrônicos"
                 st.session_state.tom_descricao = "Persuasivo/Vendedor"
@@ -412,21 +423,24 @@ else:
                 st.session_state.incluir_hashtags = True
                 st.session_state.incluir_especificacoes = True
                 
-                # Recarregar a página
+                # Recarregar
                 st.rerun()
         
         with col_btn3:
-            # Limpar campos
+            # Limpar campos - CORRIGIDO
             if st.button("🗑️ Limpar Campos", use_container_width=True):
+                # Limpar apenas os campos de entrada (não as configurações padrão)
                 st.session_state.nome_produto = ''
                 st.session_state.categoria = 'Eletrônicos'
                 st.session_state.tom_descricao = 'Persuasivo/Vendedor'
                 st.session_state.palavras_chave = ''
+                # Mantém as configurações avançadas como padrão
                 st.session_state.tamanho = 'Média (150 palavras)'
                 st.session_state.template_selecionado = 'default'
                 st.session_state.formato_exportacao = 'Texto simples'
                 st.session_state.incluir_hashtags = True
                 st.session_state.incluir_especificacoes = True
+                
                 st.rerun()
 
     # ============================================
