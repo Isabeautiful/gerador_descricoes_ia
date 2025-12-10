@@ -237,8 +237,7 @@ else:
                 "**Nome do Produto**",
                 value=st.session_state.nome_produto,
                 placeholder="Ex: Tênis Esportivo para Corrida Nike Air Max",
-                help="Seja específico e inclua marca se aplicável",
-                key="input_nome_produto"
+                help="Seja específico e inclua marca se aplicável"
             )
             
             categoria = st.selectbox(
@@ -246,19 +245,13 @@ else:
                 ["Roupas e Moda", "Eletrônicos", "Casa e Jardim", 
                  "Beleza e Saúde", "Esportes", "Automotivo", 
                  "Brinquedos", "Alimentos", "Livros", "Outros"],
-                index=["Roupas e Moda", "Eletrônicos", "Casa e Jardim", 
-                       "Beleza e Saúde", "Esportes", "Automotivo", 
-                       "Brinquedos", "Alimentos", "Livros", "Outros"].index(st.session_state.categoria),
-                key="input_categoria"
+                index=1  # Eletrônicos como padrão
             )
             
             tom_descricao = st.selectbox(
                 "**Tom da Descrição**",
                 ["Persuasivo/Vendedor", "Informativo/Técnico", 
-                 "Descontraído/Jovem", "Luxo/Premium", "Ecológico/Sustentável"],
-                index=["Persuasivo/Vendedor", "Informativo/Técnico", 
-                       "Descontraído/Jovem", "Luxo/Premium", "Ecológico/Sustentável"].index(st.session_state.tom_descricao),
-                key="input_tom_descricao"
+                 "Descontraído/Jovem", "Luxo/Premium", "Ecológico/Sustentável"]
             )
 
         with col2:
@@ -267,8 +260,7 @@ else:
                 tamanho = st.select_slider(
                     "**Tamanho da descrição:**",
                     options=["Curta (50 palavras)", "Média (150 palavras)", "Longa (300 palavras)"],
-                    value=st.session_state.tamanho,
-                    key="input_tamanho"
+                    value="Média (150 palavras)"
                 )
                 
                 # 🔧 NOVO: Seleção de template
@@ -276,29 +268,23 @@ else:
                     "**Template de descrição:**",
                     options=list(temp.TEMPLATES.keys()),
                     format_func=lambda x: temp.TEMPLATES[x]["name"],
-                    help="Selecione o template mais adequado para sua necessidade",
-                    index=list(temp.TEMPLATES.keys()).index(st.session_state.template_selecionado) if st.session_state.template_selecionado in temp.TEMPLATES else 0,
-                    key="input_template_selecionado"
+                    help="Selecione o template mais adequado para sua necessidade"
                 )
                 
                 formato_exportacao = st.radio(
                     "**Formato de exportação:**",
                     ["Texto simples", "HTML", "Markdown"],
-                    horizontal=True,
-                    index=["Texto simples", "HTML", "Markdown"].index(st.session_state.formato_exportacao),
-                    key="input_formato_exportacao"
+                    horizontal=True
                 )
                 
                 incluir_hashtags = st.checkbox(
                     "Incluir hashtags para redes sociais",
-                    value=st.session_state.incluir_hashtags,
-                    key="input_incluir_hashtags"
+                    value=True
                 )
                 
                 incluir_especificacoes = st.checkbox(
                     "Incluir seção de especificações técnicas",
-                    value=st.session_state.incluir_especificacoes,
-                    key="input_incluir_especificacoes"
+                    value=True
                 )
         
         # Palavras-chave
@@ -306,8 +292,7 @@ else:
             "**Palavras-chave importantes (opcional)**",
             value=st.session_state.palavras_chave,
             placeholder="Ex: sustentável, à prova d'água, premium, durável, confortável",
-            help="Separe por vírgulas. Essas palavras serão enfatizadas na descrição.",
-            key="input_palavras_chave"
+            help="Separe por vírgulas. Essas palavras serão enfatizadas na descrição."
         )
         
         st.divider()
@@ -414,9 +399,9 @@ else:
                                 st.info("Verifique sua chave da API e conexão com a internet.")
         
         with col_btn2:
-            # Exemplo rápido - VERSÃO CORRIGIDA
+            # Exemplo rápido - SOLUÇÃO ALTERNATIVA
             if st.button("🎯 Exemplo Rápido", use_container_width=True):
-                # Preencher automaticamente todos os campos
+                # Usar st.session_state para atualizar os valores
                 st.session_state.nome_produto = "Fone Bluetooth à Prova d'Água com Cancelamento de Ruído"
                 st.session_state.categoria = "Eletrônicos"
                 st.session_state.tom_descricao = "Persuasivo/Vendedor"
@@ -426,6 +411,8 @@ else:
                 st.session_state.formato_exportacao = "Texto simples"
                 st.session_state.incluir_hashtags = True
                 st.session_state.incluir_especificacoes = True
+                
+                # Recarregar a página
                 st.rerun()
         
         with col_btn3:
